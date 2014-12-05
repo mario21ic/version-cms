@@ -48,15 +48,12 @@ def read_version(directory, cms_type):
             directory = directory + "/wp-includes/"
 
     else:
-        return {'RELEASE': 'Unknown', 'DEV_LEVEL': 'Unknown'}
+        return 'Unknown'
 
     php_process = Popen(["php", script_php, directory], stdout=PIPE)
     values = simplejson.loads(php_process.communicate()[0])
     php_process.stdout.close()
-    print values
-
-def change_pass(user, password):
-    pass
+    return values['RELEASE'] + values['DEV_LEVEL']
 
 def write_csv(data):
     with open('report.csv', 'wb') as csvfile:
@@ -70,15 +67,9 @@ def main():
     data = []
     for user in list_users():
         directory = '/home/' + user + "/public_html/"
-        if configuration:
-            password = generate_password(pass_length)
-            print configuration['db']
-            print configuration['dbprefix']
-            print configuration['user']
-            print configuration['password']
-            data.append([user, password])
-            #if change_pass(user, password):
-            #    data.append([user, password])
+        cms_type = cms_type(directory)
+        version = read_version(directory, cms_type)
+        data.append([user, cms_type, version])
     write_csv(data)
 
 if __name__ == "__main__":
