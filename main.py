@@ -16,7 +16,6 @@ config = ConfigParser.ConfigParser()
 config.read("config.ini")
 uid_start = config.getint("settings", "uid_start")
 uid_end = config.getint("settings", "uid_end")
-pass_length = config.getint("settings", "pass_length")
 
 
 def list_users():
@@ -34,15 +33,15 @@ def cms_type(directory):
         return "Wordpress"
     return "Other"
 
-def read_version(directory, cms_type):
-    if cms_type=="Joomla":
+def read_version(directory, cms):
+    if cms =="Joomla":
         script_php = "joomla_version.php"
         if os.path.isfile(directory + "/libraries/joomla/version.php"):
             directory = directory + "/libraries/joomla/"
         elif os.path.isfile(directory + "/libraries/cms/version/version.php"):
             directory = directory + "/libraries/cms/version/"
 
-    elif cms_type == "Wordpress":
+    elif cms == "Wordpress":
         script_php = "wordpress_version.php"
         if os.path.isfile(directory + "/wp-includes/version.php"):
             directory = directory + "/wp-includes/"
@@ -67,9 +66,9 @@ def main():
     data = []
     for user in list_users():
         directory = '/home/' + user + "/public_html/"
-        cms_type = cms_type(directory)
-        version = read_version(directory, cms_type)
-        data.append([user, cms_type, version])
+        cms = cms_type(directory)
+        version = read_version(directory, cms)
+        data.append([user, cms, version])
     write_csv(data)
 
 if __name__ == "__main__":
