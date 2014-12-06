@@ -39,6 +39,8 @@ def read_version(directory, cms):
             directory = directory + "/libraries/joomla/"
         elif os.path.isfile(directory + "/libraries/cms/version/version.php"):
             directory = directory + "/libraries/cms/version/"
+        elif os.path.isfile(directory + "/includes/version.php"):
+            directory = directory + "/includes/"
 
     elif cms == "Wordpress":
         script_php = "wordpress_version.php"
