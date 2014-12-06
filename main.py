@@ -9,7 +9,6 @@ import subprocess
 from subprocess import PIPE,Popen
 import csv
 import ConfigParser
-import simplejson
 
 
 config = ConfigParser.ConfigParser()
@@ -50,9 +49,9 @@ def read_version(directory, cms):
         return 'Unknown'
 
     php_process = Popen(["php", script_php, directory], stdout=PIPE)
-    values = simplejson.loads(php_process.communicate()[0])
+    version = php_process.communicate()[0]
     php_process.stdout.close()
-    return values[0]
+    return version
 
 def write_csv(data):
     with open('report.csv', 'wb') as csvfile:
