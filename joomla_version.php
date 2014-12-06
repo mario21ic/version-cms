@@ -1,3 +1,5 @@
 <?php
-include $argv[1]."/version.php";
-echo json_encode(new JVersion);
+define('_JEXEC', 'xD');
+require $argv[1]."/version.php";
+$jversion = new JVersion;
+echo json_encode($jversion->getShortVersion());

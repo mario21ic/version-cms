@@ -52,7 +52,7 @@ def read_version(directory, cms):
     php_process = Popen(["php", script_php, directory], stdout=PIPE)
     values = simplejson.loads(php_process.communicate()[0])
     php_process.stdout.close()
-    return values['RELEASE'] + values['DEV_LEVEL']
+    return values[0]
 
 def write_csv(data):
     with open('report.csv', 'wb') as csvfile:
